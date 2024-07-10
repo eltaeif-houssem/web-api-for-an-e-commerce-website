@@ -28,8 +28,6 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;
 
-    @Value("${application.mailing.frontend.activation-url}")
-    private String activationUrl;
 
     public void register(RegistrationRequest request) {
         var userRole = roleRepository.findByName(RoleName.ROLE_CLIENT)
