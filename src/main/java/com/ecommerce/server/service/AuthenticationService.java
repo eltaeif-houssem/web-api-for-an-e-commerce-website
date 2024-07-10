@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,6 +40,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .phone(request.getPhone())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .createdDate(LocalDateTime.now())
                 .roles(List.of(userRole))
                 .build();
         userRepository.save(user);
