@@ -29,6 +29,7 @@ public class Role {
     private Integer id;
 
     @Column(unique = true)
+    @Enumerated(EnumType.STRING)
     private RoleName name;
 
     @ManyToMany(mappedBy = "roles")

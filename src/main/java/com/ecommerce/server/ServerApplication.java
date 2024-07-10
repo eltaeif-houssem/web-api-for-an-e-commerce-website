@@ -8,6 +8,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.time.LocalDateTime;
+
 @SpringBootApplication
 public class ServerApplication {
 
@@ -19,11 +21,19 @@ public class ServerApplication {
 	public CommandLineRunner runner(RoleRepository roleRepository) {
 		return args -> {
 			if (roleRepository.findByName(RoleName.ROLE_CLIENT).isEmpty()) {
-				roleRepository.save(Role.builder().name(RoleName.ROLE_CLIENT).build());
+				roleRepository.save(Role
+						.builder()
+						.name(RoleName.ROLE_CLIENT)
+						.createdDate(LocalDateTime.now())
+						.build());
 			}
 
 			if (roleRepository.findByName(RoleName.ROLE_ADMIN).isEmpty()) {
-				roleRepository.save(Role.builder().name(RoleName.ROLE_ADMIN).build());
+				roleRepository.save(Role
+						.builder()
+						.name(RoleName.ROLE_ADMIN)
+						.createdDate(LocalDateTime.now())
+						.build());
 			}
 		};
 	}
