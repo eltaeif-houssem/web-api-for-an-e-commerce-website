@@ -27,7 +27,7 @@ public class AuthenticationController {
     public ResponseEntity<?> register(
             @RequestBody @Valid RegistrationRequest request
     ) {
-
+        service.register(request);
         return ResponseEntity.accepted().build();
     }
 
