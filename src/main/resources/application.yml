@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 5MB
+server:
+  servlet:
+    context-path: /api/v1/
