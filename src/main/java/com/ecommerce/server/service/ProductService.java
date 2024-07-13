@@ -1,23 +1,16 @@
 package com.ecommerce.server.service;
 
 import com.ecommerce.server.dto.product.CreateProductRequest;
+import com.ecommerce.server.dto.product.UpdateProductRequest;
 import com.ecommerce.server.model.Product;
 import com.ecommerce.server.repository.ProductRepository;
 import com.ecommerce.server.util.FileUtil;
-import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import static java.io.File.separator;
-
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
+import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +37,28 @@ public class ProductService {
 
             productRepository.save(product);
         }
+    }
+
+    public void updateProduct(UpdateProductRequest request, Integer productId) throws IOException {
+        Optional<Product> product = productRepository.findById(productId);
+        if(product.isPresent()){
+            Product updatedProduct = product.get();
+            updatedProduct.setName(request.getName());
+            updatedProduct.setDescription(request.getDescription());
+            updatedProduct.setBrand(request.getBrand());
+            updatedProduct.setCategoryName(request.getCategoryName());
+            updatedProduct.setPrice(request.getPrice());
+            updatedProduct.setStockQuantity(request.getStockQuantity());
+            if (request.getImage() != null && !request.getImage().isEmpty()) {
+                byte[] bytes = request.getImage().getBytes();
+                String path = fileUtil.uploadFile(request.getImage());
+                updatedProduct.setImageURL(path);
+            }
+            productRepository.save(updatedProduct);
+        }
+
+
+
     }
 
 }
