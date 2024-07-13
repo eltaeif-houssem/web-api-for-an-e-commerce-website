@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static jakarta.persistence.FetchType.EAGER;
+import static jakarta.persistence.FetchType.LAZY;
 
 
 @Getter
@@ -61,6 +62,9 @@ public class User implements UserDetails, Principal {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
+
+    @OneToMany(fetch = LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Order> orders;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

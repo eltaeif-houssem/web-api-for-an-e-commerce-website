@@ -29,4 +29,7 @@ public class Address {
 
     @OneToOne(mappedBy = "address")
     private User user;
+
+    @OneToOne(mappedBy = "shipTo")
+    private Order order;
 }
