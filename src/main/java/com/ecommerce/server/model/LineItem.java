@@ -29,6 +29,10 @@ public class LineItem {
     private Order order;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shopping_cart_id")
+    private ShoppingCart shoppingCart;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
     private Product product;
 }

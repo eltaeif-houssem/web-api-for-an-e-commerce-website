@@ -66,6 +66,9 @@ public class User implements UserDetails, Principal {
     @OneToMany(fetch = LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders;
 
+    @OneToOne(mappedBy = "user", fetch = LAZY)
+    private ShoppingCart shoppingCart;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.roles
