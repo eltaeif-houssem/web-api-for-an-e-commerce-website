@@ -1,14 +1,13 @@
 package com.ecommerce.server.service;
 
-import com.ecommerce.server.dto.AuthenticationRequest;
-import com.ecommerce.server.dto.AuthenticationResponse;
-import com.ecommerce.server.dto.RegistrationRequest;
+import com.ecommerce.server.dto.auth.AuthenticationRequest;
+import com.ecommerce.server.dto.auth.AuthenticationResponse;
+import com.ecommerce.server.dto.auth.RegistrationRequest;
 import com.ecommerce.server.enums.RoleName;
 import com.ecommerce.server.model.User;
 import com.ecommerce.server.repository.RoleRepository;
 import com.ecommerce.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;

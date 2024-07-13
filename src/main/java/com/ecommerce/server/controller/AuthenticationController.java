@@ -1,9 +1,9 @@
 package com.ecommerce.server.controller;
 
 
-import com.ecommerce.server.dto.AuthenticationRequest;
-import com.ecommerce.server.dto.AuthenticationResponse;
-import com.ecommerce.server.dto.RegistrationRequest;
+import com.ecommerce.server.dto.auth.AuthenticationRequest;
+import com.ecommerce.server.dto.auth.AuthenticationResponse;
+import com.ecommerce.server.dto.auth.RegistrationRequest;
 import com.ecommerce.server.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
