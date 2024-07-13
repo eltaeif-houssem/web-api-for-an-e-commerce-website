@@ -3,6 +3,7 @@ package com.ecommerce.server.service;
 import com.ecommerce.server.dto.product.CreateProductRequest;
 import com.ecommerce.server.model.Product;
 import com.ecommerce.server.repository.ProductRepository;
+import com.ecommerce.server.util.FileUtil;
 import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,8 +24,7 @@ import java.time.LocalDateTime;
 @Slf4j
 public class ProductService {
     private final ProductRepository productRepository;
-    @Value("${application.file.uploads.photos-output-path}")
-    private String fileUploadPath;
+    private final FileUtil fileUtil;
 
 
     public void createProduct(CreateProductRequest request) throws IOException {
@@ -39,49 +39,11 @@ public class ProductService {
                     .build();
 
             byte[] bytes = request.getImage().getBytes();
-            String path = uploadFile(request.getImage());
+            String path = fileUtil.uploadFile(request.getImage());
             product.setImageURL(path);
 
             productRepository.save(product);
         }
     }
 
-
-
-    private String uploadFile(
-            MultipartFile sourceFile
-    ) {
-        final String finalUploadPath = fileUploadPath;
-        File targetFolder = new File(finalUploadPath);
-
-        if (!targetFolder.exists()) {
-            boolean folderCreated = targetFolder.mkdirs();
-            if (!folderCreated) {
-                log.warn("Failed to create the target folder: " + targetFolder);
-                return null;
-            }
-        }
-        final String fileExtension = getFileExtension(sourceFile.getOriginalFilename());
-        String targetFilePath = finalUploadPath + separator + System.currentTimeMillis() + "." + fileExtension;
-        Path targetPath = Paths.get(targetFilePath);
-        try {
-            Files.write(targetPath, sourceFile.getBytes());
-            log.info("File saved to: " + targetFilePath);
-            return targetFilePath;
-        } catch (IOException e) {
-            log.error("File was not saved", e);
-        }
-        return null;
-    }
-
-    private String getFileExtension(String fileName) {
-        if (fileName == null || fileName.isEmpty()) {
-            return "";
-        }
-        int lastDotIndex = fileName.lastIndexOf(".");
-        if (lastDotIndex == -1) {
-            return "";
-        }
-        return fileName.substring(lastDotIndex + 1).toLowerCase();
-    }
 }
