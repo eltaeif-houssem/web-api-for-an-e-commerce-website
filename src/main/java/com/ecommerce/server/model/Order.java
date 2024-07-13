@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static jakarta.persistence.FetchType.EAGER;
+import static jakarta.persistence.FetchType.LAZY;
 
 @Getter
 @Setter
@@ -43,4 +44,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
+
+    @OneToMany(fetch = LAZY, mappedBy = "order", cascade = CascadeType.ALL)
+    private List<LineItem> lineItems;
 }
