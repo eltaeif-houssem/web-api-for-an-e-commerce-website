@@ -3,9 +3,15 @@ package com.ecommerce.server.service;
 import com.ecommerce.server.dto.product.CreateProductRequest;
 import com.ecommerce.server.model.Product;
 import com.ecommerce.server.repository.ProductRepository;
+import jakarta.annotation.Nonnull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import static java.io.File.separator;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,13 +20,15 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductService {
     private final ProductRepository productRepository;
-    private static final String UPLOAD_DIR = "uploads/";
+    @Value("${application.file.uploads.photos-output-path}")
+    private String fileUploadPath;
 
 
     public void createProduct(CreateProductRequest request) throws IOException {
-        if (request.getImage() != null && !request.getImage().isEmpty()) {
+        if (!request.getImage().isEmpty()) {
             Product product = Product.builder()
                     .name(request.getName())
                     .description(request.getDescription())
@@ -31,11 +39,49 @@ public class ProductService {
                     .build();
 
             byte[] bytes = request.getImage().getBytes();
-            Path path = Paths.get(UPLOAD_DIR + request.getImage().getOriginalFilename() + LocalDateTime.now());
-            Files.write(path, bytes);
-            product.setImageURL(path.toString());
+            String path = uploadFile(request.getImage());
+            product.setImageURL(path);
 
             productRepository.save(product);
         }
+    }
+
+
+
+    private String uploadFile(
+            MultipartFile sourceFile
+    ) {
+        final String finalUploadPath = fileUploadPath;
+        File targetFolder = new File(finalUploadPath);
+
+        if (!targetFolder.exists()) {
+            boolean folderCreated = targetFolder.mkdirs();
+            if (!folderCreated) {
+                log.warn("Failed to create the target folder: " + targetFolder);
+                return null;
+            }
+        }
+        final String fileExtension = getFileExtension(sourceFile.getOriginalFilename());
+        String targetFilePath = finalUploadPath + separator + System.currentTimeMillis() + "." + fileExtension;
+        Path targetPath = Paths.get(targetFilePath);
+        try {
+            Files.write(targetPath, sourceFile.getBytes());
+            log.info("File saved to: " + targetFilePath);
+            return targetFilePath;
+        } catch (IOException e) {
+            log.error("File was not saved", e);
+        }
+        return null;
+    }
+
+    private String getFileExtension(String fileName) {
+        if (fileName == null || fileName.isEmpty()) {
+            return "";
+        }
+        int lastDotIndex = fileName.lastIndexOf(".");
+        if (lastDotIndex == -1) {
+            return "";
+        }
+        return fileName.substring(lastDotIndex + 1).toLowerCase();
     }
 }
