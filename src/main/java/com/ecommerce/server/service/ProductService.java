@@ -31,9 +31,8 @@ public class ProductService {
                     .stockQuantity(request.getStockQuantity())
                     .build();
 
-            byte[] bytes = request.getImage().getBytes();
-            String path = fileUtil.uploadFile(request.getImage());
-            product.setImageURL(path);
+            String imageURL = fileUtil.uploadFile(request.getImage());
+            product.setImageURL(imageURL);
 
             productRepository.save(product);
         }
@@ -50,14 +49,11 @@ public class ProductService {
             updatedProduct.setPrice(request.getPrice());
             updatedProduct.setStockQuantity(request.getStockQuantity());
             if (request.getImage() != null && !request.getImage().isEmpty()) {
-                byte[] bytes = request.getImage().getBytes();
-                String path = fileUtil.uploadFile(request.getImage());
-                updatedProduct.setImageURL(path);
+                String imageURL = fileUtil.uploadFile(request.getImage());
+                updatedProduct.setImageURL(imageURL);
             }
             productRepository.save(updatedProduct);
         }
-
-
 
     }
 
