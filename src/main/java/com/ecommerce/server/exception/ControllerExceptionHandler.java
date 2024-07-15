@@ -34,4 +34,16 @@ public class ControllerExceptionHandler {
 
         return ResponseEntity.badRequest().body(body);
     }
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {
+        Map<String, Object> body = new LinkedHashMap<>();
+
+        body.put("timestamp", LocalDateTime.now());
+        body.put("message", "Not found");
+        body.put("error",ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
+    }
 }

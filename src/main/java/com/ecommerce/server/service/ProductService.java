@@ -2,6 +2,7 @@ package com.ecommerce.server.service;
 
 import com.ecommerce.server.dto.product.CreateProductRequest;
 import com.ecommerce.server.dto.product.UpdateProductRequest;
+import com.ecommerce.server.exception.NotFoundException;
 import com.ecommerce.server.model.Product;
 import com.ecommerce.server.repository.ProductRepository;
 import com.ecommerce.server.util.FileUtil;
@@ -37,6 +38,15 @@ public class ProductService {
             productRepository.save(product);
         }
     }
+
+    public Product getProduct(Integer productId) {
+        Optional<Product> product = productRepository.findById(productId);
+        if(product.isEmpty()){
+            throw new NotFoundException("product with id "+productId+" not found");
+        }
+        return product.get();
+    }
+
 
     public void updateProduct(UpdateProductRequest request, Integer productId) throws IOException {
         Optional<Product> product = productRepository.findById(productId);
