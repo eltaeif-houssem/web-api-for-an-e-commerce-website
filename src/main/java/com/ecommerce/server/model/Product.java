@@ -1,6 +1,7 @@
 package com.ecommerce.server.model;
 
 
+import com.ecommerce.server.enums.CategoryName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,21 +17,27 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "line_item")
-public class LineItem {
+@Table(name = "product")
+public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer quantity;
+    private String name;
+
+    private String description;
 
     private Double price;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    @Enumerated(EnumType.STRING)
+    private CategoryName category;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private String brand;
+
+    private Integer stockQuantity;
+
+    private String imageURL;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<LineItem> lineItems;
 }
