@@ -49,6 +49,7 @@ public class ProductService {
             updatedProduct.setPrice(request.getPrice());
             updatedProduct.setStockQuantity(request.getStockQuantity());
             if (request.getImage() != null && !request.getImage().isEmpty()) {
+                fileUtil.deleteFromLocation(updatedProduct.getImageURL());
                 String imageURL = fileUtil.uploadFile(request.getImage());
                 updatedProduct.setImageURL(imageURL);
             }
