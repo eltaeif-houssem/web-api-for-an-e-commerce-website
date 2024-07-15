@@ -27,7 +27,7 @@ public class LineItem {
     private Double price;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
+    @JoinColumn(name = "order_id")
     private Order order;
 
     @ManyToOne
@@ -35,6 +35,6 @@ public class LineItem {
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "shopping_cart_id", nullable = false)
+    @JoinColumn(name = "shopping_cart_id")
     private ShoppingCart shoppingCart;
 }

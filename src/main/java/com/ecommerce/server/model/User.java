@@ -49,10 +49,10 @@ public class User implements UserDetails, Principal {
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = EAGER)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
     private Address address;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = LAZY)
     @JoinColumn(name = "shopping_cart_id", referencedColumnName = "id")
     private ShoppingCart shoppingCart;
 
