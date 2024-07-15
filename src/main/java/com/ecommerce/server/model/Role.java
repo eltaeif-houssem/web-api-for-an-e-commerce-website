@@ -32,10 +32,6 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private RoleName name;
 
-    @ManyToMany(mappedBy = "roles")
-    @JsonIgnore
-    private List<User> user;
-
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
@@ -43,4 +39,8 @@ public class Role {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
+
+    @ManyToMany(mappedBy = "roles")
+    @JsonIgnore
+    private List<User> user;
 }

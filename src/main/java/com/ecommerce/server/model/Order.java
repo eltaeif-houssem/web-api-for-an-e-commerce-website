@@ -21,7 +21,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "order")
+@Table(name = "_order")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,17 +34,16 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private Float total;
+    private Double total;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = EAGER)
-    @JoinColumn(name = "ship_to", referencedColumnName = "id")
-    private Address shipTo;
-
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonIgnore
     private User user;
 
-    @OneToMany(fetch = LAZY, mappedBy = "order", cascade = CascadeType.ALL)
-    private List<LineItem> lineItems;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address", referencedColumnName = "id")
+    private Address shipTo;
+
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
 }

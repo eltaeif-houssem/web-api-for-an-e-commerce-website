@@ -1,6 +1,5 @@
 package com.ecommerce.server.util;
 
-import com.ecommerce.server.repository.ProductRepository;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +19,6 @@ import static java.io.File.separator;
 @Component
 @RequiredArgsConstructor
 public class FileUtil {
-    private final ProductRepository productRepository;
     @Value("${application.file.uploads.photos-output-path}")
     private String fileUploadPath;
 
@@ -70,8 +68,21 @@ public class FileUtil {
             Path filePath = new File(fileUploadPath + separator + fileUrl).toPath();
             return Files.readAllBytes(filePath);
         } catch (IOException e) {
-            log.warn("Nou file found in the path {}", fileUrl);
+            log.warn("No file found in the path {}", fileUrl);
         }
         return null;
+    }
+
+    public boolean deleteFromLocation(String fileUrl) {
+        if (StringUtils.isBlank(fileUrl)) {
+            return false;
+        }
+        try {
+            Path filePath = new File(fileUploadPath + separator + fileUrl).toPath();
+            return Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            log.warn("No file found in the path {}", fileUrl);
+        }
+        return false;
     }
 }
