@@ -8,6 +8,9 @@ import com.ecommerce.server.repository.ProductRepository;
 import com.ecommerce.server.util.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
@@ -50,6 +53,11 @@ public class ProductService {
 
     public List<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    public Page<Product> getProducts(Integer page, Integer size){
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAll(pageable);
     }
 
 
