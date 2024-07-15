@@ -80,4 +80,13 @@ public class ProductService {
         }
     }
 
+    public void deleteProduct(Integer productId){
+        Optional<Product> product = productRepository.findById(productId);
+        if(product.isEmpty()){
+            throw new NotFoundException("Product with id "+productId+" not found");
+        }
+        fileUtil.deleteFromLocation(product.get().getImageURL());
+        productRepository.delete(product.get());
+    }
+
 }
