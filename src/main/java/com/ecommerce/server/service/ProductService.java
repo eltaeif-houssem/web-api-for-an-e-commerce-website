@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -42,9 +43,13 @@ public class ProductService {
     public Product getProduct(Integer productId) {
         Optional<Product> product = productRepository.findById(productId);
         if(product.isEmpty()){
-            throw new NotFoundException("product with id "+productId+" not found");
+            throw new NotFoundException("Product with id "+productId+" not found");
         }
         return product.get();
+    }
+
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 
 
