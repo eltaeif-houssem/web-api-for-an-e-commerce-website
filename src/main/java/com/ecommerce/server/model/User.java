@@ -46,11 +46,16 @@ public class User implements UserDetails, Principal {
     @Column(unique = true)
     private String phone;
 
+    private String password;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = EAGER)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 
-    private String password;
+    @OneToOne(cascade = CascadeType.ALL, fetch = EAGER)
+    @JoinColumn(name = "shopping_cart_id", referencedColumnName = "id")
+    private ShoppingCart shoppingCart;
+
 
     @ManyToMany(fetch = EAGER)
     private List<Role> roles;
