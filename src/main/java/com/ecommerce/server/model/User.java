@@ -47,18 +47,6 @@ public class User implements UserDetails, Principal {
 
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = EAGER)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
-
-    @OneToOne(cascade = CascadeType.ALL, fetch = LAZY)
-    @JoinColumn(name = "shopping_cart_id", referencedColumnName = "id")
-    private ShoppingCart shoppingCart;
-
-
-    @ManyToMany(fetch = EAGER)
-    private List<Role> roles;
-
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
@@ -66,6 +54,21 @@ public class User implements UserDetails, Principal {
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = LAZY)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = LAZY)
+    @JoinColumn(name = "shopping_cart_id", referencedColumnName = "id")
+    private ShoppingCart shoppingCart;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = LAZY)
+    @JoinColumn(name = "saving_id", referencedColumnName = "id")
+    private Saving saving;
+
+    @ManyToMany(fetch = EAGER)
+    private List<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Order> orders;

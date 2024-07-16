@@ -40,7 +40,7 @@ public class Order {
     @JoinColumn(name = "address", referencedColumnName = "id")
     private Address shipTo;
 
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Payment payment;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
