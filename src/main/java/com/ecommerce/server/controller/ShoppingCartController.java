@@ -27,31 +27,31 @@ public class ShoppingCartController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getUserShoppingCart(){
+    public ResponseEntity<ShoppingCart> getUserShoppingCart(){
         ShoppingCart shoppingCart = shoppingCartService.getUserShoppingCart();
         return ResponseEntity.ok(shoppingCart);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Object> addProductToShoppingCart(@PathVariable Integer id){
+    public ResponseEntity<String> addProductToShoppingCart(@PathVariable Integer id){
         shoppingCartService.addProductToShoppingCart(id);
         return ResponseEntity.ok("product added");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> removeProductFromShoppingCart(@PathVariable Integer id){
+    public ResponseEntity<String> removeProductFromShoppingCart(@PathVariable Integer id){
         shoppingCartService.removeProductFromShoppingCart(id);
         return ResponseEntity.ok("product removed");
     }
 
     @PostMapping("/quantity/{id}")
-    public ResponseEntity<Object> increaseProductQuantity(@PathVariable Integer id){
+    public ResponseEntity<String> increaseProductQuantity(@PathVariable Integer id){
         shoppingCartService.increaseProductQuantity(id);
         return ResponseEntity.ok("product quantity increased");
     }
 
     @DeleteMapping("/quantity/{id}")
-    public ResponseEntity<Object> decreaseProductQuantity(@PathVariable Integer id){
+    public ResponseEntity<String> decreaseProductQuantity(@PathVariable Integer id){
         shoppingCartService.decreaseProductQuantity(id);
         return ResponseEntity.ok("product quantity decreased");
     }
