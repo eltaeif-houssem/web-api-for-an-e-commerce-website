@@ -6,6 +6,8 @@ import com.ecommerce.server.model.Product;
 import com.ecommerce.server.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -44,6 +46,17 @@ public class ProductController {
     ){
         Product product = productService.getProduct(id);
         return ResponseEntity.ok(product);
+    }
+
+    @GetMapping("/image/{id}")
+    public ResponseEntity<byte[]> getProductImage(@PathVariable String imageURL){
+        byte[] productImage = productService.getProductImage(imageURL);
+
+        // set headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+
+        return new ResponseEntity<>(productImage,headers, HttpStatus.OK);
     }
 
     @PutMapping("/admin/update/{id}")
