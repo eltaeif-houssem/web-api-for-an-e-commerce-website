@@ -5,6 +5,7 @@ import com.ecommerce.server.model.LineItem;
 import com.ecommerce.server.model.Product;
 import com.ecommerce.server.model.ShoppingCart;
 import com.ecommerce.server.model.User;
+import com.ecommerce.server.repository.LineItemRepository;
 import com.ecommerce.server.repository.ProductRepository;
 import com.ecommerce.server.repository.ShoppingCartRepository;
 import com.ecommerce.server.repository.UserRepository;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,7 @@ public class ShoppingCartService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final LineItemRepository lineItemRepository;
 
     public List<ShoppingCart> getShoppingCarts(){
         return shoppingCartRepository.findAll();
@@ -54,9 +57,27 @@ public class ShoppingCartService {
 
 
     public void addProductToShoppingCart(Integer productId) {
-        User user = userService.getCurrentUser();
-        ShoppingCart shoppingCart = user.getShoppingCart();
+        ShoppingCart shoppingCart = getUserShoppingCart();
         List<LineItem> lineItems = shoppingCart.getLineItems();
+
+        if(lineItems == null){
+            Optional<Product> product = productRepository.findById(productId);
+            if(product.isPresent() && product.get().getStockQuantity() >= 1){
+                lineItems = new ArrayList<>();
+                LineItem newLineItem = LineItem.builder()
+                        .product(product.get())
+                        .price(product.get().getPrice())
+                        .quantity(1)
+                        .price(product.get().getPrice())
+                        .shoppingCart(shoppingCart)
+                        .build();
+                newLineItem = lineItemRepository.save(newLineItem);
+                lineItems.add(newLineItem);
+                shoppingCart.setLineItems(lineItems);
+                shoppingCartRepository.save(shoppingCart);
+                return;
+            }
+        }
 
         boolean itemFound = false;
 
@@ -122,16 +143,14 @@ public class ShoppingCartService {
         for (LineItem lineItem : lineItems) {
             Product product = lineItem.getProduct();
             if (productId.equals(product.getId())) {
-                    itemToRemove = lineItem;
+                    lineItems.remove(lineItem);
+                    lineItemRepository.delete(lineItem);
                     break;
             }
         }
 
-        if (itemToRemove != null) {
-            lineItems.remove(itemToRemove);
-        }
-
         shoppingCart.setLastModifiedDate(LocalDateTime.now());
+
         shoppingCartRepository.save(shoppingCart);
     }
 
