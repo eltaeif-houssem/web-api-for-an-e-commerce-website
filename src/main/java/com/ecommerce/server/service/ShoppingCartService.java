@@ -108,27 +108,6 @@ public class ShoppingCartService {
         shoppingCartRepository.save(shoppingCart);
     }
 
-
-    public void decreaseProductQuantity(Integer productId) {
-        User user = userService.getCurrentUser();
-        ShoppingCart shoppingCart = user.getShoppingCart();
-        List<LineItem> lineItems = shoppingCart.getLineItems();
-
-        for (LineItem lineItem : lineItems) {
-            Product product = lineItem.getProduct();
-            if (productId.equals(product.getId())) {
-                if (lineItem.getQuantity() > 1) {
-                    lineItem.setQuantity(lineItem.getQuantity() - 1);
-                    lineItem.setPrice(lineItem.getPrice() - product.getPrice());
-                }
-                break;
-            }
-        }
-
-        shoppingCart.setLastModifiedDate(LocalDateTime.now());
-        shoppingCartRepository.save(shoppingCart);
-    }
-
     public void removeProductFromShoppingCart(Integer productId) {
         User user = userService.getCurrentUser();
         ShoppingCart shoppingCart = user.getShoppingCart();
@@ -151,4 +130,25 @@ public class ShoppingCartService {
         shoppingCart.setLastModifiedDate(LocalDateTime.now());
         shoppingCartRepository.save(shoppingCart);
     }
+
+    public void decreaseProductQuantity(Integer productId) {
+        User user = userService.getCurrentUser();
+        ShoppingCart shoppingCart = user.getShoppingCart();
+        List<LineItem> lineItems = shoppingCart.getLineItems();
+
+        for (LineItem lineItem : lineItems) {
+            Product product = lineItem.getProduct();
+            if (productId.equals(product.getId())) {
+                if (lineItem.getQuantity() > 1) {
+                    lineItem.setQuantity(lineItem.getQuantity() - 1);
+                    lineItem.setPrice(lineItem.getPrice() - product.getPrice());
+                }
+                break;
+            }
+        }
+
+        shoppingCart.setLastModifiedDate(LocalDateTime.now());
+        shoppingCartRepository.save(shoppingCart);
+    }
+
 }
