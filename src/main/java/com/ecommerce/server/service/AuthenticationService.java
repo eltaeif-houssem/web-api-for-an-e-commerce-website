@@ -4,6 +4,7 @@ import com.ecommerce.server.dto.auth.AuthenticationRequest;
 import com.ecommerce.server.dto.auth.AuthenticationResponse;
 import com.ecommerce.server.dto.auth.RegistrationRequest;
 import com.ecommerce.server.enums.RoleName;
+import com.ecommerce.server.exception.UserAlreadyExistsException;
 import com.ecommerce.server.model.User;
 import com.ecommerce.server.repository.RoleRepository;
 import com.ecommerce.server.repository.UserRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +32,13 @@ public class AuthenticationService {
 
 
     public void register(RegistrationRequest request) {
+
+        Optional<User> userExist = userRepository.findByEmail(request.getEmail());
+
+        if(userExist.isPresent()){
+            throw new UserAlreadyExistsException("User already exists");
+        }
+
         var userRole = roleRepository.findByName(RoleName.ROLE_CLIENT)
                 // todo - better exception handling
                 .orElseThrow(() -> new IllegalStateException("ROLE CLIENT was not initiated"));
