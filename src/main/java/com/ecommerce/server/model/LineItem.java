@@ -1,6 +1,7 @@
 package com.ecommerce.server.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,7 @@ public class LineItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Order order;
 
     @ManyToOne
@@ -36,5 +38,6 @@ public class LineItem {
 
     @ManyToOne
     @JoinColumn(name = "shopping_cart_id")
+    @JsonIgnore
     private ShoppingCart shoppingCart;
 }
