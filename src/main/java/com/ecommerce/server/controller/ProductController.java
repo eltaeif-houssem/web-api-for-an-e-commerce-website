@@ -2,6 +2,7 @@ package com.ecommerce.server.controller;
 
 import com.ecommerce.server.dto.product.CreateProductRequest;
 import com.ecommerce.server.dto.product.UpdateProductRequest;
+import com.ecommerce.server.model.Product;
 import com.ecommerce.server.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("product")

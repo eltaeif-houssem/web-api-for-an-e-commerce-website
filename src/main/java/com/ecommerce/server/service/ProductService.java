@@ -60,6 +60,10 @@ public class ProductService {
         return productRepository.findAll(pageable);
     }
 
+    public byte[] getProductImage(String imageURL){
+        return fileUtil.readFileFromLocation(imageURL);
+    }
+
 
     public void updateProduct(UpdateProductRequest request, Integer productId) throws IOException {
         Optional<Product> product = productRepository.findById(productId);
