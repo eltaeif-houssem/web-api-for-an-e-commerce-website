@@ -38,6 +38,14 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProduct(
+            @PathVariable Integer id
+    ){
+        Product product = productService.getProduct(id);
+        return ResponseEntity.ok(product);
+    }
+
     @PutMapping("/admin/update/{id}")
     public ResponseEntity<String> updateProduct(@ModelAttribute @Valid UpdateProductRequest request, @PathVariable Integer id){
         try{
