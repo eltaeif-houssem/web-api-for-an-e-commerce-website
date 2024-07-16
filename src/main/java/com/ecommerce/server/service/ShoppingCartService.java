@@ -86,4 +86,33 @@ public class ShoppingCartService {
         shoppingCart.setLastModifiedDate(LocalDateTime.now());
         shoppingCartRepository.save(shoppingCart);
     }
+
+
+    public void removeProductFromShoppingCart(Integer productId) {
+        User user = userService.getCurrentUser();
+        ShoppingCart shoppingCart = user.getShoppingCart();
+        List<LineItem> lineItems = shoppingCart.getLineItems();
+
+        LineItem itemToRemove = null;
+
+        for (LineItem lineItem : lineItems) {
+            Product product = lineItem.getProduct();
+            if (productId.equals(product.getId())) {
+                if (lineItem.getQuantity() > 1) {
+                    lineItem.setQuantity(lineItem.getQuantity() - 1);
+                    lineItem.setPrice(lineItem.getPrice() - product.getPrice());
+                } else {
+                    itemToRemove = lineItem;
+                }
+                break;
+            }
+        }
+
+        if (itemToRemove != null) {
+            lineItems.remove(itemToRemove);
+        }
+
+        shoppingCart.setLastModifiedDate(LocalDateTime.now());
+        shoppingCartRepository.save(shoppingCart);
+    }
 }
