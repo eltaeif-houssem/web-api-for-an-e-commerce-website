@@ -2,6 +2,7 @@ package com.ecommerce.server.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "shopping_cart")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ShoppingCart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +36,7 @@ public class ShoppingCart {
     @Column(insertable = false)
     private LocalDateTime lastModifiedDate;
 
-    @OneToOne(mappedBy = "shoppingCart")
+    @OneToOne(mappedBy = "shoppingCart", fetch = FetchType.LAZY)
     @JsonIgnore
     private User user;
 

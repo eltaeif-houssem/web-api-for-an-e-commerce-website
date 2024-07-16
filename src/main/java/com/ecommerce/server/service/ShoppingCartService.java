@@ -31,13 +31,13 @@ public class ShoppingCartService {
         ShoppingCart shoppingCart = user.getShoppingCart();
 
         if(shoppingCart == null){
-            ShoppingCart newShoppingCart = ShoppingCart.builder()
+            shoppingCart = ShoppingCart.builder()
                     .user(user)
                     .createdDate(LocalDateTime.now())
                     .build();
-            user.setShoppingCart(newShoppingCart);
+            shoppingCart = shoppingCartRepository.save(shoppingCart);
+            user.setShoppingCart(shoppingCart);
             userRepository.save(user);
-            return newShoppingCart;
         }
 
         return shoppingCart;

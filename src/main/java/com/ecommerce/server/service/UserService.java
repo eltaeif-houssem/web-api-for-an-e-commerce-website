@@ -20,7 +20,7 @@ public class UserService {
         String userEmail = getUserPrincipal().getName();
         Optional<User> user = userRepository.findByEmail(userEmail);
         if(user.isEmpty()){
-            throw new NotFoundException("User not found!");
+            throw new IllegalStateException("Current user is not found");
         }
         return user.get();
     }
