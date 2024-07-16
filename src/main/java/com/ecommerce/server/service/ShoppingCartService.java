@@ -46,6 +46,7 @@ public class ShoppingCartService {
             shoppingCart = ShoppingCart.builder()
                     .user(user)
                     .createdDate(LocalDateTime.now())
+                    .lineItems(new ArrayList<>())
                     .build();
             shoppingCart = shoppingCartRepository.save(shoppingCart);
             user.setShoppingCart(shoppingCart);
