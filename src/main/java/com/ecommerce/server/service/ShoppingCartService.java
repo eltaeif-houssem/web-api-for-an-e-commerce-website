@@ -23,6 +23,10 @@ public class ShoppingCartService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
+    public List<ShoppingCart> getShoppingCarts(Integer id){
+        return shoppingCartRepository.findAll();
+    }
+
     public ShoppingCart getShoppingCartById(Integer id){
         Optional<ShoppingCart> shoppingCart = shoppingCartRepository.findById(id);
         if(shoppingCart.isEmpty()){
