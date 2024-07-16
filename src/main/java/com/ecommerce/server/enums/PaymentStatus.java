@@ -1,6 +1,6 @@
 package com.ecommerce.server.enums;
 
-enum PaymentStatus {
+public enum PaymentStatus {
     PENDING,
     PROCESSING,
     COMPLETED,

@@ -1,12 +1,12 @@
 package com.ecommerce.server.model;
 
+import com.ecommerce.server.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-
 import java.time.LocalDateTime;
 
 @Getter
@@ -26,6 +26,9 @@ public class Payment {
     private LocalDateTime paymentDate;
 
     private String details;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus status;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
