@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -42,4 +43,8 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<LineItem> lineItems;
+
+    @ManyToMany(mappedBy = "savings")
+    @JsonIgnore
+    private List<User> users = new ArrayList<>();
 }
