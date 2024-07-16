@@ -6,14 +6,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("shopping-cart")
 @RequiredArgsConstructor
 public class ShoppingCartController {
     private final ShoppingCartService shoppingCartService;
 
+    @GetMapping("/admin")
+    public ResponseEntity<List<ShoppingCart>> getShoppingCarts(){
+        List<ShoppingCart> shoppingCarts = shoppingCartService.getShoppingCarts();
+        return ResponseEntity.ok(shoppingCarts);
+    }
+
     @GetMapping("/admin/{id}")
-    public ResponseEntity<Object> getShoppingCart(@PathVariable Integer id){
+    public ResponseEntity<ShoppingCart> getShoppingCart(@PathVariable Integer id){
         ShoppingCart shoppingCart = shoppingCartService.getShoppingCartById(id);
         return ResponseEntity.ok(shoppingCart);
     }

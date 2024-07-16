@@ -23,7 +23,7 @@ public class ShoppingCartService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
 
-    public List<ShoppingCart> getShoppingCarts(Integer id){
+    public List<ShoppingCart> getShoppingCarts(){
         return shoppingCartRepository.findAll();
     }
 
