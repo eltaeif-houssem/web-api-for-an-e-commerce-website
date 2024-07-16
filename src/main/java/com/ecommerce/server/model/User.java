@@ -63,10 +63,6 @@ public class User implements UserDetails, Principal {
     @JoinColumn(name = "shopping_cart_id", referencedColumnName = "id")
     private ShoppingCart shoppingCart;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = LAZY)
-    @JoinColumn(name = "saving_id", referencedColumnName = "id")
-    private Saving saving;
-
     @ManyToMany(fetch = EAGER)
     private List<Role> roles;
 
