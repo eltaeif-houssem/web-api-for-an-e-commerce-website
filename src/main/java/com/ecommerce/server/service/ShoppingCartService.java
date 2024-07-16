@@ -47,6 +47,7 @@ public class ShoppingCartService {
                     .user(user)
                     .createdDate(LocalDateTime.now())
                     .lineItems(new ArrayList<>())
+                    .total(0.0)
                     .build();
             shoppingCart = shoppingCartRepository.save(shoppingCart);
             user.setShoppingCart(shoppingCart);
@@ -74,6 +75,7 @@ public class ShoppingCartService {
                 newLineItem = lineItemRepository.save(newLineItem);
                 lineItems.add(newLineItem);
                 shoppingCart.setLineItems(lineItems);
+                shoppingCart.setTotal(product.get().getPrice());
                 shoppingCartRepository.save(shoppingCart);
                 return;
             }
@@ -87,6 +89,7 @@ public class ShoppingCartService {
                 if (lineItem.getQuantity() < product.getStockQuantity()) {
                     lineItem.setQuantity(lineItem.getQuantity() + 1);
                     lineItem.setPrice(lineItem.getPrice() + product.getPrice());
+                    shoppingCart.setTotal(shoppingCart.getTotal()+product.getPrice());
                 }
                 itemFound = true;
                 break;
@@ -104,6 +107,7 @@ public class ShoppingCartService {
                 newLineItem.setPrice(product.getPrice());
                 newLineItem.setShoppingCart(shoppingCart);
                 lineItems.add(newLineItem);
+                shoppingCart.setTotal(shoppingCart.getTotal()+product.getPrice());
             } else {
                 throw new NotFoundException("Product out of stock");
             }
@@ -124,6 +128,7 @@ public class ShoppingCartService {
                 if (lineItem.getQuantity() < product.getStockQuantity()) {
                     lineItem.setQuantity(lineItem.getQuantity() + 1);
                     lineItem.setPrice(lineItem.getPrice() + product.getPrice());
+                    shoppingCart.setTotal(shoppingCart.getTotal()+product.getPrice());
                 }
                 break;
             }
@@ -145,6 +150,7 @@ public class ShoppingCartService {
             if (productId.equals(product.getId())) {
                     lineItems.remove(lineItem);
                     lineItemRepository.delete(lineItem);
+                    shoppingCart.setTotal(shoppingCart.getTotal() - product.getPrice() * lineItem.getQuantity());
                     break;
             }
         }
@@ -165,6 +171,7 @@ public class ShoppingCartService {
                 if (lineItem.getQuantity() > 1) {
                     lineItem.setQuantity(lineItem.getQuantity() - 1);
                     lineItem.setPrice(lineItem.getPrice() - product.getPrice());
+                    shoppingCart.setTotal(shoppingCart.getTotal()-product.getPrice());
                 }
                 break;
             }

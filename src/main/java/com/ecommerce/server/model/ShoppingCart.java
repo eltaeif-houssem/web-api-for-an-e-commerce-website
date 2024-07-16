@@ -29,6 +29,8 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private Double total;
+
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
