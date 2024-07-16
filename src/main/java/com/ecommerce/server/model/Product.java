@@ -2,6 +2,7 @@ package com.ecommerce.server.model;
 
 
 import com.ecommerce.server.enums.CategoryName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,5 +40,6 @@ public class Product {
     private String imageURL;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<LineItem> lineItems;
 }
