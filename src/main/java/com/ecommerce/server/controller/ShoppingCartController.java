@@ -32,7 +32,7 @@ public class ShoppingCartController {
 
     @PostMapping("/quantity/{id}")
     public ResponseEntity<Object> increaseProductQuantity(@PathVariable Integer id){
-        shoppingCartService.addProductToShoppingCart(id);
+        shoppingCartService.increaseProductQuantity(id);
         return ResponseEntity.ok("product quantity increased");
     }
 
