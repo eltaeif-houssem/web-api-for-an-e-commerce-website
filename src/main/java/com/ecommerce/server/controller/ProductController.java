@@ -10,7 +10,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,8 +54,8 @@ public class ProductController {
     }
 
     @GetMapping("/image/{id}")
-    public ResponseEntity<byte[]> getProductImage(@PathVariable String imageURL){
-        byte[] productImage = productService.getProductImage(imageURL);
+    public ResponseEntity<byte[]> getProductImage(@PathVariable String id){
+        byte[] productImage = productService.getProductImage(id);
 
         // set headers
         HttpHeaders headers = new HttpHeaders();
@@ -65,7 +64,7 @@ public class ProductController {
         return new ResponseEntity<>(productImage,headers, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Integer id){
         productService.deleteProduct(id);
         return ResponseEntity.ok("Product deleted successfully");
