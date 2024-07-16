@@ -1,5 +1,6 @@
 package com.ecommerce.server.config;
 
+import com.ecommerce.server.enums.RoleName;
 import com.ecommerce.server.util.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,16 @@ public class SecurityConfig {
                                         "/auth/**"
                                 )
                                 .permitAll()
+                                .requestMatchers(
+                                        "/product/**"
+                                ).hasAnyRole(
+                                        "CLIENT",
+                                                "ADMIN"
+                                )
+                                .requestMatchers(
+                                        "/product/admin/**"
+                                )
+                                .hasRole("ADMIN")
                                 .anyRequest()
                                 .authenticated()
                 )
