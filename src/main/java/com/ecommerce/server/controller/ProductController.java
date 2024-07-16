@@ -21,7 +21,7 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    @PostMapping(path = "/admin/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(path = "/admin", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<String> createProduct(@ModelAttribute @Valid CreateProductRequest request){
         try{
             productService.createProduct(request);
@@ -30,6 +30,12 @@ public class ProductController {
             return ResponseEntity.badRequest().body("An error has occurred: " + exception.getMessage());
         }
     }
+
+   @GetMapping("/admin")
+   public ResponseEntity<List<Product>> getProducts(){
+        List<Product> products = productService.getAllProducts();
+        return ResponseEntity.ok(products);
+   }
 
     @GetMapping
     public ResponseEntity<List<Product>> getProducts(
@@ -59,13 +65,13 @@ public class ProductController {
         return new ResponseEntity<>(productImage,headers, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Integer id){
         productService.deleteProduct(id);
         return ResponseEntity.ok("Product deleted successfully");
     }
 
-    @PutMapping("/admin/update/{id}")
+    @PutMapping("/admin/{id}")
     public ResponseEntity<String> updateProduct(@ModelAttribute @Valid UpdateProductRequest request, @PathVariable Integer id){
         try{
             productService.updateProduct(request, id);
