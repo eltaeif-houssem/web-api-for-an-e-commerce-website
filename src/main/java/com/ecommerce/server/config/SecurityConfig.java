@@ -1,6 +1,5 @@
 package com.ecommerce.server.config;
 
-import com.ecommerce.server.enums.RoleName;
 import com.ecommerce.server.util.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
