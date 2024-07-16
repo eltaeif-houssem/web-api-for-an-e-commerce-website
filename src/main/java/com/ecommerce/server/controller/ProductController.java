@@ -59,6 +59,12 @@ public class ProductController {
         return new ResponseEntity<>(productImage,headers, HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Integer id){
+        productService.deleteProduct(id);
+        return ResponseEntity.ok("Product deleted successfully");
+    }
+
     @PutMapping("/admin/update/{id}")
     public ResponseEntity<String> updateProduct(@ModelAttribute @Valid UpdateProductRequest request, @PathVariable Integer id){
         try{
