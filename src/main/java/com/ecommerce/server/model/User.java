@@ -73,7 +73,7 @@ public class User implements UserDetails, Principal {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Payment> payments;
 
-    @ManyToMany
+    @ManyToMany(fetch = LAZY)
     @JoinTable(
             name = "user_product",
             joinColumns = @JoinColumn(name = "user_id"),
