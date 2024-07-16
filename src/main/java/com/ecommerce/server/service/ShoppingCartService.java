@@ -61,10 +61,9 @@ public class ShoppingCartService {
         ShoppingCart shoppingCart = getUserShoppingCart();
         List<LineItem> lineItems = shoppingCart.getLineItems();
 
-        if(lineItems == null){
+        if(lineItems.isEmpty()){
             Optional<Product> product = productRepository.findById(productId);
             if(product.isPresent() && product.get().getStockQuantity() >= 1){
-                lineItems = new ArrayList<>();
                 LineItem newLineItem = LineItem.builder()
                         .product(product.get())
                         .price(product.get().getPrice())
