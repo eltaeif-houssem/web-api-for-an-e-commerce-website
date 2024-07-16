@@ -1,6 +1,7 @@
 package com.ecommerce.server.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,6 +35,7 @@ public class ShoppingCart {
     private LocalDateTime lastModifiedDate;
 
     @OneToOne(mappedBy = "shoppingCart")
+    @JsonIgnore
     private User user;
 
     @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL)
