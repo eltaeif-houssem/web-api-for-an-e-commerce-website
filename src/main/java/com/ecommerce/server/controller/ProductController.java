@@ -29,6 +29,15 @@ public class ProductController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<List<Product>> getProducts(
+            @RequestParam(defaultValue = "0") Integer page,
+            @RequestParam(defaultValue = "10") Integer size
+    ){
+        List<Product> products = productService.getProducts(page, size).toList();
+        return ResponseEntity.ok(products);
+    }
+
     @PutMapping("/admin/update/{id}")
     public ResponseEntity<String> updateProduct(@ModelAttribute @Valid UpdateProductRequest request, @PathVariable Integer id){
         try{
