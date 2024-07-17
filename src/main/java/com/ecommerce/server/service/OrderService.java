@@ -3,12 +3,16 @@ package com.ecommerce.server.service;
 import com.ecommerce.server.enums.OrderStatus;
 import com.ecommerce.server.exception.NotFoundException;
 import com.ecommerce.server.model.*;
+import com.ecommerce.server.repository.CartItemRepository;
 import com.ecommerce.server.repository.OrderRepository;
 import com.ecommerce.server.repository.PaymentRepository;
+import com.ecommerce.server.repository.ShoppingCartRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,17 +23,19 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ShoppingCartService shoppingCartService;
     private final PaymentRepository paymentRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
+    private final CartItemRepository lineItemRepository;
 
-    private List<Order> getAllOrders(){
+    public List<Order> getAllOrders(){
         return orderRepository.findAll();
     }
 
-    private List<Order> getAllUserOrders(){
+    public List<Order> getUserOrders(){
         User user = userService.getCurrentUser();
         return user.getOrders();
     }
 
-    private Order getOrder(Integer orderId){
+    public Order getOrder(Integer orderId){
         Optional<Order> order = orderRepository.findById(orderId);
         if(order.isEmpty()){
             throw new NotFoundException("Order with the id "+orderId+" was not found");
@@ -37,15 +43,7 @@ public class OrderService {
         return order.get();
     }
 
- /*   private void createOrder(Address address){
-        ShoppingCart shoppingCart = shoppingCartService.getUserShoppingCart();
-        Payment payment = Payment.builder()
+    public void createOrder(){
 
-        Order order = Order.builder()
-                .ordered(LocalDateTime.now())
-                .shipTo(address)
-                .status(OrderStatus.NEW)
-                .lineItems(shoppingCart.getLineItems())
-                .build();
-    }*/
+    }
 }

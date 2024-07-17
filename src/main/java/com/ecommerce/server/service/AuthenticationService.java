@@ -4,6 +4,7 @@ import com.ecommerce.server.dto.auth.AuthenticationRequest;
 import com.ecommerce.server.dto.auth.AuthenticationResponse;
 import com.ecommerce.server.dto.auth.RegistrationRequest;
 import com.ecommerce.server.enums.RoleName;
+import com.ecommerce.server.exception.NotFoundException;
 import com.ecommerce.server.exception.UserAlreadyExistsException;
 import com.ecommerce.server.model.User;
 import com.ecommerce.server.repository.RoleRepository;
@@ -55,6 +56,13 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
+
+        Optional<User> userExist = userRepository.findByEmail(request.getEmail());
+
+        if(userExist.isEmpty()){
+            throw new NotFoundException("No user was found");
+        }
+
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),

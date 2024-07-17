@@ -13,7 +13,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -29,8 +28,6 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Double total;
-
     @CreatedDate
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdDate;
@@ -43,6 +40,6 @@ public class ShoppingCart {
     @JsonIgnore
     private User user;
 
-    @OneToMany(mappedBy = "shoppingCart", cascade = CascadeType.ALL)
-    private List<LineItem> lineItems;
+    @OneToMany(mappedBy = "shoppingCart", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<CartItem> cartItems;
 }

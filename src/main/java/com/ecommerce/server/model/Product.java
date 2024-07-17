@@ -42,7 +42,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<LineItem> lineItems;
+    private List<CartItem> lineItems;
 
     @ManyToMany(mappedBy = "savings")
     @JsonIgnore

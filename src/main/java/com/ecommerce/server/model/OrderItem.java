@@ -1,6 +1,5 @@
 package com.ecommerce.server.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,23 +8,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.util.List;
-
 @Getter
 @Setter
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "line_item")
-public class LineItem {
+@Table(name = "order_item")
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private Integer quantity;
-
-    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "order_id")
@@ -35,9 +30,4 @@ public class LineItem {
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
-
-    @ManyToOne
-    @JoinColumn(name = "shopping_cart_id")
-    @JsonIgnore
-    private ShoppingCart shoppingCart;
 }
