@@ -41,6 +41,12 @@ public class OrderController {
         return ResponseEntity.ok("Order payment status updated successfully!");
     }
 
+    @PutMapping("/admin/payment-success/{id}")
+    public ResponseEntity<String> addOrderPayment(@PathVariable Integer id){
+        orderService.addPaymentDate(id);
+        return ResponseEntity.ok("Order payment success!");
+    }
+
 
     @PostMapping
     public ResponseEntity<String> createOrder(){
