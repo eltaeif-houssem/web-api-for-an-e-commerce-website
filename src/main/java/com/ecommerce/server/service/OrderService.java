@@ -92,4 +92,15 @@ public class OrderService {
         order.get().setStatus(orderStatus);
         orderRepository.save(order.get());
     }
+
+    public void updateOrderPaymentStatus(Integer orderId, PaymentStatus paymentStatus){
+        Optional<Order> order = orderRepository.findById(orderId);
+
+        if(order.isEmpty()){
+            throw new NotFoundException("Order with the id "+orderId+" was not found");
+        }
+
+        order.get().getPayment().setStatus(paymentStatus);
+        orderRepository.save(order.get());
+    }
 }
