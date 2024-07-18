@@ -35,12 +35,6 @@ public class SecurityConfig {
                                 )
                                 .permitAll()
                                 .requestMatchers(
-                                        "/product/**"
-                                ).hasAnyRole(
-                                        "CLIENT",
-                                                "ADMIN"
-                                )
-                                .requestMatchers(
                                         "/product/admin/**"
                                 )
                                 .hasRole("ADMIN")

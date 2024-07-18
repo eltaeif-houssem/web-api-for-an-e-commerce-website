@@ -44,6 +44,32 @@ public class OrderService {
     }
 
     public void createOrder(){
+        User user = userService.getCurrentUser();
+        ShoppingCart shoppingCart = user.getShoppingCart();
+        List<OrderItem> orderItems = new ArrayList<>();
 
+        Order order = new Order();
+        order.setUser(user);
+        order.setStatus(OrderStatus.NEW);
+        order.setOrdered(LocalDateTime.now());
+        order.setShipTo(user.getAddress());
+
+        Double totalPrice = 0.0;
+        for(CartItem cartItem:shoppingCart.getCartItems()){
+            OrderItem orderItem = new OrderItem();
+            orderItem.setProduct(cartItem.getProduct());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setOrder(order);
+            orderItems.add(orderItem);
+            totalPrice+= cartItem.getQuantity() * cartItem.getProduct().getPrice();
+            cartItem.setShoppingCart(null);
+        }
+
+        order.setOrderItems(orderItems);
+        order.setTotal(totalPrice);
+        shoppingCart.getCartItems().clear();
+
+        shoppingCartRepository.save(shoppingCart);
+        orderRepository.save(order);
     }
 }

@@ -72,6 +72,7 @@ public class ShoppingCartService {
                 newLineItem = lineItemRepository.save(newLineItem);
                 cartItems.add(newLineItem);
                 shoppingCart.setCartItems(cartItems);
+                shoppingCart.setLastModifiedDate(LocalDateTime.now());
                 shoppingCartRepository.save(shoppingCart);
                 return;
             }
@@ -145,7 +146,6 @@ public class ShoppingCartService {
         }
 
         shoppingCart.setLastModifiedDate(LocalDateTime.now());
-
         shoppingCartRepository.save(shoppingCart);
     }
 
