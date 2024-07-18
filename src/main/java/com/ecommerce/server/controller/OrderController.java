@@ -5,10 +5,7 @@ import com.ecommerce.server.model.Order;
 import com.ecommerce.server.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +19,12 @@ public class OrderController {
     public ResponseEntity<List<Order>> getAllOrders(){
         List<Order> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
+    }
+
+    @GetMapping("/admin/{id}")
+    public ResponseEntity<Order> getOrder(@PathVariable Integer id){
+        Order order = orderService.getOrder(id);
+        return ResponseEntity.ok(order);
     }
 
 
