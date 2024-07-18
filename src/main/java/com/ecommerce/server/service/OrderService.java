@@ -103,4 +103,17 @@ public class OrderService {
         order.get().getPayment().setStatus(paymentStatus);
         orderRepository.save(order.get());
     }
+
+    public void addPaymentDate(Integer orderId){
+        Optional<Order> order = orderRepository.findById(orderId);
+
+        if(order.isEmpty()){
+            throw new NotFoundException("Order with the id "+orderId+" was not found");
+        }
+
+        order.get().getPayment().setStatus(PaymentStatus.COMPLETED);
+        order.get().getPayment().setPaymentDate(LocalDateTime.now());
+
+        orderRepository.save(order.get());
+    }
 }
