@@ -1,6 +1,7 @@
 package com.ecommerce.server.service;
 
 import com.ecommerce.server.enums.OrderStatus;
+import com.ecommerce.server.enums.PaymentStatus;
 import com.ecommerce.server.exception.NotFoundException;
 import com.ecommerce.server.model.*;
 import com.ecommerce.server.repository.CartItemRepository;
@@ -47,8 +48,9 @@ public class OrderService {
         User user = userService.getCurrentUser();
         ShoppingCart shoppingCart = user.getShoppingCart();
         List<OrderItem> orderItems = new ArrayList<>();
-
         Order order = new Order();
+        Payment payment = new Payment();
+
         order.setUser(user);
         order.setStatus(OrderStatus.NEW);
         order.setOrdered(LocalDateTime.now());
@@ -65,9 +67,16 @@ public class OrderService {
             cartItem.setShoppingCart(null);
         }
 
+        shoppingCart.getCartItems().clear();
+        payment.setOrder(order);
+        payment.setStatus(PaymentStatus.PENDING);
+        payment.setUser(user);
+        payment.setAmount(totalPrice);
+        payment.setDetails("Payment for the order-"+LocalDateTime.now());
+
         order.setOrderItems(orderItems);
         order.setTotal(totalPrice);
-        shoppingCart.getCartItems().clear();
+        order.setPayment(payment);
 
         shoppingCartRepository.save(shoppingCart);
         orderRepository.save(order);
