@@ -18,6 +18,13 @@ import java.util.List;
 public class OrderController {
     private final OrderService orderService;
 
+    @GetMapping("/admin")
+    public ResponseEntity<List<Order>> getAllOrders(){
+        List<Order> orders = orderService.getAllOrders();
+        return ResponseEntity.ok(orders);
+    }
+
+
     @PostMapping
     public ResponseEntity<String> createOrder(){
         orderService.createOrder();
