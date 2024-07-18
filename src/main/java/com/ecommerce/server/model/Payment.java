@@ -1,6 +1,7 @@
 package com.ecommerce.server.model;
 
 import com.ecommerce.server.enums.PaymentStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -32,10 +33,12 @@ public class Payment {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @JsonIgnore
     private Order order;
 
 }
