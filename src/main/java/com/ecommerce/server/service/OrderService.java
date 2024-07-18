@@ -81,4 +81,15 @@ public class OrderService {
         shoppingCartRepository.save(shoppingCart);
         orderRepository.save(order);
     }
+
+    public void updateOrderStatus(Integer orderId, OrderStatus orderStatus){
+        Optional<Order> order = orderRepository.findById(orderId);
+
+        if(order.isEmpty()){
+            throw new NotFoundException("Order with the id "+orderId+" was not found");
+        }
+
+        order.get().setStatus(orderStatus);
+        orderRepository.save(order.get());
+    }
 }
