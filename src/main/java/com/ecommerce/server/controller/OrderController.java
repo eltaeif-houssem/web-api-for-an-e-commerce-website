@@ -35,6 +35,11 @@ public class OrderController {
         return ResponseEntity.ok("Order status updated successfully!");
     }
 
+    @PutMapping("/admin/payment-status/{id}")
+    public ResponseEntity<String> updateOrderPaymentStatus(@PathVariable Integer id, @RequestParam PaymentStatus paymentStatus){
+        orderService.updateOrderPaymentStatus(id, paymentStatus);
+        return ResponseEntity.ok("Order payment status updated successfully!");
+    }
 
 
     @PostMapping
