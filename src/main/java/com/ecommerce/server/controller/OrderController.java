@@ -1,6 +1,8 @@
 package com.ecommerce.server.controller;
 
 
+import com.ecommerce.server.enums.OrderStatus;
+import com.ecommerce.server.enums.PaymentStatus;
 import com.ecommerce.server.model.Order;
 import com.ecommerce.server.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,13 @@ public class OrderController {
         Order order = orderService.getOrder(id);
         return ResponseEntity.ok(order);
     }
+
+    @PutMapping("/admin/order-status/{id}")
+    public ResponseEntity<String> updateOrderStatus(@PathVariable Integer id, @RequestParam OrderStatus orderStatus){
+        orderService.updateOrderStatus(id,orderStatus);
+        return ResponseEntity.ok("Order status updated successfully!");
+    }
+
 
 
     @PostMapping
