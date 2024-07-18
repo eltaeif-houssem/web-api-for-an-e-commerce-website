@@ -2,7 +2,6 @@ package com.ecommerce.server.service;
 
 import com.ecommerce.server.model.Product;
 import com.ecommerce.server.model.User;
-import com.ecommerce.server.repository.ProductRepository;
 import com.ecommerce.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,6 @@ public class SavingService {
     private final UserRepository userRepository;
     private final UserService userService;
     private final ProductService productService;
-    private final ProductRepository productRepository;
 
     public List<Product> getUserSavings(){
         User user = userService.getCurrentUser();
